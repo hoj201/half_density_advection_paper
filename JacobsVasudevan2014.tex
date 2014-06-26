@@ -1,0 +1,157 @@
+\documentclass[12pt]{amsart}
+\usepackage{todonotes}
+\title{Half-densities as a unified approach to advection}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+\label{sec:intro}
+
+  Any geometric object (a function, a density, a tensor, etc) transforms in its own unique way when carried by a diffeomorphism.
+As a results, there are a variety of advection schemes for different types of
+objects because each type has its own advection PDE.
+However, there are certain invariants and relationships
+among objects which should be conserved under advection.
+For example, if $\rho$ is a density then it's total mass $\int_M \rho$
+should be conserved under advection.
+More generally, $\int_M f \rho$ should be conserve for a function $f$ 
+which is advected.
+Moreover, the algebraic structure of complex valued functions (i.e. the ring structure) should be preserved.
+If $f$ and $g$ are two complex valued functions, then 
+advecting the product $f(\cdot) g(\cdot)$ is equivalent to taking the
+product of the advected $f$ and $g$ individually.
+
+Existing schemes are typically focused on advecting an individual 
+object of a single type, and it is not clear how to advect objects
+of other types in order to respect the relationships mentioned above.
+These relationships can be particular important in a variety of scenarios.
+
+\subsection{Climate science}
+\label{sec:climate}
+
+The temperature field, $T$, is a function advected by the air
+over our planet,
+while the fluid density, $\rho$, is a density.
+In many climate models scalar functions and densities are multiplied to
+define other physically relevent quantites.
+For example in the primitive equations, we define the equation of state $p = \rho R T$.
+If $T$ and $\rho$ are advected passively, then the
+thermodynamic energy $\int_{S^2}p$ should be constant in time.
+This baseline behavior is a pre-requisite for having confidence in a climate model, as the energy budget of the climate is an object of concern in weather prediction.
+
+\subsection{Safety margins}
+\label{sec:safety}
+\todo[inline]{Another example}
+
+\subsection{Numerical disputes}
+\label{sec:disputes}
+When there are two ways of doing something, who's to say which is better.
+
+\subsection{An example}
+\todo[inline]{Here we advect a measure $\mu$ via Transfer-operator theory (w/o describing the theory in detail).
+and we advect a function $f$ via Koopman operator theory (again, no details).
+We then compute $\int f \mu$ in time, to find it is not constant (bum bum bah!).  We refer to the appendices to describe the details.
+Moreover, we could not that $\int \mu$ is not conserved, nor is $\sup(f)$.}
+
+\section{Background}
+\label{sec:background}
+\todo[inline]{Put literature sruvey here.
+Peron-Frobenius, Koopmanism, Transfer operators,
+Henrion-Korda,etc.}
+
+\section{The geometry of half-densities}
+\label{sec:half_densities}
+
+
+\section{A semidiscretization}
+\label{sec:semi_discretization}
+
+
+\section{Error analysis}
+\label{sec:error}
+
+
+\section{Examples}
+\label{sec:examples}
+
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+
+\subsection{Acknowledgements}
+\label{sec:ack}
+
+
+\appendix
+
+\section{Transfer operator theory}
+blah
+
+\section{Koopmanism}
+blah
+
+\bibliographystyle{amsalpha}
+\bibliography{hoj_2014}
+
+\end{document}
+
+%%%  OLD WRITING
+
+\subsection{Specific problems}
+Let $X$ be a vector-field on a compact manifold $M$.
+A scalar function $q_0 \in C^1( M)$ is
+advected by $X$ through the partial-differential equation
+given in local coordinates by
+\begin{align*}
+  \partial_t q(x) + X^i(x) \partial_i q(x) = 0.
+\end{align*}
+The solution is $q(x,t) = q_0( F_t^{-1}(x) )$ where $F_t : M \to M$ is the flow of the vector-field $X$.
+
+Similarly, a density $\rho_0$ is advected by
+\begin{align*}
+  \partial_t \rho + \partial_i ( \rho f^i) = 0
+\end{align*}
+and $\rho( \cdot , t)$ is related to $\rho_0$ by $\rho(x,t) = \det( \partial_j F_t^i(x) )^{-1} \rho_0( F_t^{-1}(x) )$.
+
+Given a density and a function, we can consider the scalar product $\langle \rho , q \rangle = \int \rho(x) q(x) dx$.
+This duality between densities and functions is \emph{the defining property of densities!}  Therefore, a coordinate change, perhaps induced by a smooth evolution, should not alter the inner product between a function and a density.
+In otherwords, the inner product between a density and a function is constant in time under the evolution of a vector field.
+
+Lastly, the advection equation for vector-fields is
+\begin{align*}
+  \partial_t g^i + f^j \partial_j g^i - g^j \partial_j f^i = 0.
+\end{align*}
+The solution is $g^i(x,t) = \partial_j F^i_t(x) \cdot g^j_0(F_t^{-1}(x))$.
+It is notable that $g_t$ is identical to $g_0$ modulo a change of coordinates
+given by $F_t$.
+This implies that topological properties of $g_0$ such as the asymptotic behavior, index of fixed points, etc, is captured in $g_t$ as well.
+Other properties follow, for example if $q_0/\rho_0$ is an invariant
+function/density of $g_0$, then $q_t/\rho_t$ is an invariant function
+/density of $g_t$.
+
+When we descritize one advection equation
+it is customary to ignore these relationships
+and the other advection equations.
+However,
+ignoring these relationships can lead spurious behavior.
+For example:
+\begin{enumerate}
+  \item The sign of a probability density can become negative upon discretization.
+  \item The extremal values of a function can become time dependent upon discretization.
+  \item A stable region of a vector-field can advect itself to be an unstable region in the discrete scheme.
+\end{enumerate}
+
+``Understanding the qualitative behavior of a dynamical system'' is another way of saying ``understanding the invariants of a dynamical system under all changes in coordinates''.
+Therefore questions of qualitative behavior must be answereable in terms of entities which are invariant under changes in coordinates, entities such as:
+the duality between densities and functions, the Lie-bracket of vector fields, and the orientation of a signed measure.
+Such descriptions are of particular importance in high-dimensional systems where high-accuracy is infeasible but qualitatively accurate descriptions might be.
+In this paper we will construct an integrator designed to juggle all
+of these relationships simultaneously for the purpose of studying qualitative behavior in a range of scenarios.
+
+\todo[inline]{Perhaps we should consider
+introducing some naive discretizations
+to show what can go wrong.
+In particular, the posibility 
+of negative probability measures}
