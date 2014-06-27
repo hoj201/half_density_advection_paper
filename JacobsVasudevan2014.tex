@@ -4,6 +4,15 @@
 \newcommand{\hoj}[1]{\todo[inline, color=red!20]{HOJ: #1}}
 \newcommand{\ram}[1]{\todo[inline, color=blue!20]{RAM: #1}}
 
+\newtheorem{thm}{Theorem}
+\newtheorem{prop}{Proposition}
+\newtheorem{cor}{Corollary}
+\newtheorem{defn}{Definition}
+
+\DeclareMathOperator{\Diff}{Diff}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\U}{U}
+
 \title{A unified approach to advection}
 
 \begin{document}
@@ -33,7 +42,6 @@ These relationships can be particular important in a variety of scenarios.
 
 \subsection{Climate science}
 \label{sec:climate}
-
 The temperature field, $T$, is a function advected by the air
 over our planet,
 while the fluid density, $\rho$, is a density.
@@ -67,12 +75,108 @@ Henrion-Korda,etc.}
 \section{The geometry of half-densities}
 \label{sec:half_densities}
 
-\hoj{I writes this}
+In differential geometry, the domain of concern is
+a differentiable manifold, $M$, and objects (such as
+functions, vector-fields, and densities) are typically defined
+as maps from points in $M$.
+However, the inner-product space
+of half-densities on $M$ allows us to redefine these concepts
+as operations on an inner-product space.
+
+Before introduing the definition of a half-density, it is useful
+to characterize densities in a geometric way.
+A density on a vector-space, $V$, is merely a way of measuring the volume
+of parallelopipeds.
+Mathematically, this means assiging a number to each basis in a way which transforms appropriately under linear changes of coordinates.
+If we denote the set of basis of $V$ by $\mathcal{B}(V)$,
+ then there is a natural $\GL(n)$ action on $\mathcal{B}(V)$ given by
+ \begin{align*}
+  v = (v_1,\dots,v_n) \in \mathcal{B}(V) \stackrel{A \in \GL(n)}{\mapsto} v \cdot A = (A_1^j v_j, \dots, A_n^j v_j) \in \mathcal{B}(V).
+ \end{align*}
+A density on $V$ is merely a map $\mu_V: \mathcal{B}(V) \to \mathbb{C}$ such that
+\begin{align*}
+  \mu_V( v \cdot A) = \mu_V(v) | \det(A) |
+\end{align*}
+for any $A \in \GL(n)$.
+We can bundle-ize these notions to define a density on a manifold.
+We let $\mathcal{B}(TM)$ denote the fiber-bundle over $M$ whose elements are basis of tangent fibers.
+A densities on a manifold, is a map $\mu:\mathcal{B}(TM) \to \mathbb{C}$ such that $\mu(x): \mathcal{B}(T_xM) \to \mathbb{C}$ is a density on the vector-space $T_xM$.
+ The integral of density is given by the standard partition of unity argument, usually applied to $n$-forms \cite[Chapter 14]{Lee2006}.\footnote{Integration of $n$-forms usually requires a orientation, however densities may be integrated on any manifold.}
+This (non-standard) characterization of a density allows us to introduce half-densities without further delay.
+
+\begin{defn}
+  [See \S 5.4 \cite{GuilleminSternberg1970} or Appendix A \cite{BatesWeinstein1997}]
+  A half-density on a manifold $M$, is a function $\psi : \mathcal{B}(TM) \to \mathbb{C}$ such that
+  \begin{align*}
+    \psi( v \cdot A) = \psi( v ) | \det(A) |^{1/2}
+  \end{align*}
+  for any $A \in \GL(n)$.
+  We denote the space of half-densities by $|\bigwedge^n(M)|^{1/2}$.
+\end{defn}
+
+On a chart $U \subset M$ with coordinates $x^1,\dots,x^n$ we always have a local volume form $d{\bf x} = dx^1\wedge dx^2 \wedge \cdots \wedge dx^n$.
+If we think of this volume form as a function on $\mathcal{B}(TU)$, then we may take the square-root of this function to get a locally defined half-density $\sqrt{d{\bf x}}$.
+Any half-density $\psi \in | \bigwedge^n(M)|^{1/2}$ is locally expressed as
+\begin{align*}
+  \psi(x) \stackrel{locally}{=} f(x) \sqrt{d {\bf x}}
+\end{align*}
+for some complex-valued function $f:U \to \mathbb{C}$.
+
+
+\begin{prop}
+  The space of half-densities is a complex inner-product space.
+\end{prop}
+\begin{proof}
+ If $\psi_1,\psi_2 \in |\bigwedge^n(M)|^{1/2}$,$v \in \mathcal{B}(TM)$, $c \in \mathbb{C}$, and $A \in \GL(n)$ then
+  \begin{align*}
+    \psi_1( v A) + c  \psi_2(v A) = ( \psi_1(v) + c\psi_2(v) ) | \det(A) |^{1/2}.
+  \end{align*}
+  This shows that $\psi_1 + c \psi_2$ is a half-density, and so $|\bigwedge^n(M)|^{1/2}$ is a vector space.
+  Moreover, we see that
+  \begin{align*}
+    \psi_1(v \cdot A) \bar{\psi}_2( v \cdot A) = \psi_1(v)\bar{\psi}_2(v) | \det(A) |.
+  \end{align*}
+  Thus $\psi_1( \cdot) \bar{\psi}_2( \cdot)$ is a complex-valued density which we may integrate.  The complex inner-product is given by
+  \begin{align*}
+    \langle \psi_1 \mid \psi_2 \rangle = \int_M \psi_1 \bar{\psi}_2.
+  \end{align*}
+\end{proof}
+
+It is notable that the inner product on half-densities has been defined intrinisically (i.e. independent of any choice of coordinates).  As a result it should yield the same result regardless of how we transform a coordinate system under a diffeomorphism of $M$.
+
+\begin{prop}
+  The diffeomorphism group of $M$, denoted $\Diff(M)$, acts unitarily on the space of half-densities.
+\end{prop}
+\begin{proof}
+  Let $\varphi \in \Diff(M)$ and $\psi_1,\psi_2 \in | \bigwedge^n(M) |^{1/2}$.  Then the pull-back of $\psi_i$ by $\varphi$ is given by right composition.  That is to say
+  \begin{align*}
+    \varphi^* \psi_i( v_1,\dots,v_n ) = \psi_i( T_x\varphi \cdot v_1,\dots,T_x\varphi \cdot v_n ).
+  \end{align*}
+  It is then simple to observe that $(\varphi^* \psi_1 ) (\varphi^* \bar{\psi}_2)$ is a density which is equivalent to $\varphi^*( \psi_1 \bar{\psi}_2)$.
+  Thus we find
+  \begin{align*}
+    \langle \varphi^* \psi_1 \mid \varphi^* \psi_2 \rangle = \int_M \varphi^*( \psi_1 \bar{\psi}_2) = \int_{\varphi(M)} \psi_1 \bar{\psi}_2 = \langle \psi_1 \mid \bar{\psi}_2 \rangle.
+  \end{align*}
+\end{proof}
+
+\begin{cor}
+  The space of smooth vector-fields, $\mathfrak{X}(M)$, are anti-Hermetian operators on half-densities.
+\end{cor}
+\begin{proof}
+  The space of smooth vector-fields form the Lie algebra of $\Diff(M)$.  As $\Diff(M) \subset \U( | \bigwedge^n(M)|^{1/2} )$, it must be the case that $\mathfrak{X}(M) \subset \mathfrak{u}( | \bigwedge^n( M) |^{1/2})$.
+\end{proof}
+
+Given a vector field $X \in \mathfrak{X}(M)$, the anti-Hermetian action on $\psi \in |\bigwedge^n(M)|^{1/2}$ is given in coordinates by
+\begin{align*}
+  X[\psi](x) \stackrel{locally}{=} \left( X^i(x) \partial_i f(x) + \frac{1}{2} f(x) \partial_iX^i(x) \right) \sqrt{d {\bf x} }
+\end{align*}
+where $\psi$ is locally $f \sqrt{d {\bf x}}$.
+
 
 \section{A semidiscretization}
 \label{sec:semi_discretization}
 
-\hoj{I write this}
+\hoj{I write this, so we can do it using charts}
 
 \section{Error analysis}
 \label{sec:error}
@@ -82,7 +186,7 @@ Henrion-Korda,etc.}
 \section{Examples}
 \label{sec:examples}
 
-\hoj{I will come up with some examples}
+\todo[inline]{We both come up with examples}
 
 \section{Conclusion}
 \label{sec:conclusion}
@@ -103,7 +207,7 @@ Yo!  Dmitry Pavlov, Darryl Holm, Jaap Eldering... tanks!
 \hoj{I write this}
 
 \bibliographystyle{amsalpha}
-\bibliography{hoj_2014}
+\bibliography{/Users/hoj201/Dropbox/hoj_2014}
 
 \end{document}
 
