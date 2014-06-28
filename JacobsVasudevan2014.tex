@@ -12,6 +12,8 @@
 \DeclareMathOperator{\Diff}{Diff}
 \DeclareMathOperator{\GL}{GL}
 \DeclareMathOperator{\U}{U}
+\DeclareMathOperator{\Fr}{Fr}
+\DeclareMathOperator{\Herm}{Herm}
 
 \title{A unified approach to advection}
 
@@ -88,25 +90,27 @@ to characterize densities in a geometric way.
 A density on a vector-space, $V$, is merely a way of measuring the volume
 of parallelopipeds.
 Mathematically, this means assiging a number to each basis in a way which transforms appropriately under linear changes of coordinates.
-If we denote the set of basis of $V$ by $\mathcal{B}(V)$,
- then there is a natural $\GL(n)$ action on $\mathcal{B}(V)$ given by
+If we denote the set of basis, or frames, of $V$ by $\Fr(V)$,
+ then there is a natural $\GL(n)$ action on $\Fr(V)$ given by
  \begin{align*}
-  v = (v_1,\dots,v_n) \in \mathcal{B}(V) \stackrel{A \in \GL(n)}{\mapsto} v \cdot A = (A_1^j v_j, \dots, A_n^j v_j) \in \mathcal{B}(V).
+  v = (v_1,\dots,v_n) \in \Fr(V) \stackrel{A \in \GL(n)}{\mapsto} v \cdot A = (A_1^j v_j, \dots, A_n^j v_j) \in \Fr(V).
  \end{align*}
-A density on $V$ is merely a map $\mu_V: \mathcal{B}(V) \to \mathbb{C}$ such that
+A density on $V$ is merely a map $\mu_V: \Fr(V) \to \mathbb{C}$ such that
 \begin{align*}
   \mu_V( v \cdot A) = \mu_V(v) | \det(A) |
 \end{align*}
 for any $A \in \GL(n)$.
-We can bundle-ize these notions to define a density on a manifold.
-We let $\mathcal{B}(TM)$ denote the fiber-bundle over $M$ whose elements are basis of tangent fibers.
-A densities on a manifold, is a map $\mu:\mathcal{B}(TM) \to \mathbb{C}$ such that $\mu(x): \mathcal{B}(T_xM) \to \mathbb{C}$ is a density on the vector-space $T_xM$.
- The integral of density is given by the standard partition of unity argument, usually applied to $n$-forms \cite[Chapter 14]{Lee2006}.\footnote{Integration of $n$-forms usually requires a orientation, however densities may be integrated on any manifold.}
+We can bundle-ize these notions to define a density on a manifold by defining the frame bundle.
+\begin{defn}
+  The \emph{frame bundle} of $M$, is the fiber bundle $\pi_{\Fr}:\Fr(M) \to M$ whose fiber over $x \in M$ is $\pi_{\Fr}^{-1}(x) = \Fr( T_x M)$.
+A \emph{density} on a manifold, is a map $\mu:\Fr(M) \to \mathbb{C}$ such that $\mu(x): \Fr(T_xM) \to \mathbb{C}$ is a density on the vector-space $T_xM$.
+\end{defn}
+ The integral of a density on $M$ is given by the standard partition of unity argument, usually applied to $n$-forms \cite[Chapter 14]{Lee2006}.\footnote{Integration of $n$-forms usually requires a orientation, however densities may be integrated on any manifold.}
 This (non-standard) characterization of a density allows us to introduce half-densities without further delay.
 
 \begin{defn}
   [See \S 5.4 \cite{GuilleminSternberg1970} or Appendix A \cite{BatesWeinstein1997}]
-  A half-density on a manifold $M$, is a function $\psi : \mathcal{B}(TM) \to \mathbb{C}$ such that
+  A half-density on a manifold $M$, is a function $\psi : \Fr(M) \to \mathbb{C}$ such that
   \begin{align*}
     \psi( v \cdot A) = \psi( v ) | \det(A) |^{1/2}
   \end{align*}
@@ -115,7 +119,7 @@ This (non-standard) characterization of a density allows us to introduce half-de
 \end{defn}
 
 On a chart $U \subset M$ with coordinates $x^1,\dots,x^n$ we always have a local volume form $d{\bf x} = dx^1\wedge dx^2 \wedge \cdots \wedge dx^n$.
-If we think of this volume form as a function on $\mathcal{B}(TU)$, then we may take the square-root of this function to get a locally defined half-density $\sqrt{d{\bf x}}$.
+If we think of this volume form as a function on $\Fr(U)$, then we may take the square-root of this function to get a locally defined half-density $\sqrt{d{\bf x}}$.
 Any half-density $\psi \in | \bigwedge^n(M)|^{1/2}$ is locally expressed as
 \begin{align*}
   \psi(x) \stackrel{locally}{=} f(x) \sqrt{d {\bf x}}
@@ -127,7 +131,7 @@ for some complex-valued function $f:U \to \mathbb{C}$.
   The space of half-densities is a complex inner-product space.
 \end{prop}
 \begin{proof}
- If $\psi_1,\psi_2 \in |\bigwedge^n(M)|^{1/2}$,$v \in \mathcal{B}(TM)$, $c \in \mathbb{C}$, and $A \in \GL(n)$ then
+ If $\psi_1,\psi_2 \in |\bigwedge^n(M)|^{1/2}$,$v \in \Fr(M)$, $c \in \mathbb{C}$, and $A \in \GL(n)$ then
   \begin{align*}
     \psi_1( v A) + c  \psi_2(v A) = ( \psi_1(v) + c\psi_2(v) ) | \det(A) |^{1/2}.
   \end{align*}
@@ -142,28 +146,50 @@ for some complex-valued function $f:U \to \mathbb{C}$.
   \end{align*}
 \end{proof}
 
+  We call the completion of $| \bigwedge^n(M) |^{1/2}$ with respect to $\langle \cdot \mid \cdot \rangle$ the \emph{canonical Hilbert space of $M$}, which we denote by $L_2(M)$.
+One should understand that $L_2(M)$ is not a space of functions, and is \emph{not} identical to an $L_2$-space of functions on $M$ which would require one choose a volume form.
 It is notable that the inner product on half-densities has been defined intrinisically (i.e. independent of any choice of coordinates).  As a result it should yield the same result regardless of how we transform a coordinate system under a diffeomorphism of $M$.
 
 \begin{prop}
-  The diffeomorphism group of $M$, denoted $\Diff(M)$, acts unitarily on the space of half-densities.
+  Let $\Diff(M)$ denote the diffeomorphism group of $M$, and let $C^{\infty}(M)$ denote the vector-space of smooth real-valued functions.  Both $\Diff(M)$ and $C^{\infty}(M)$ act unitarily on $L_2(M)$.
 \end{prop}
 \begin{proof}
-  Let $\varphi \in \Diff(M)$ and $\psi_1,\psi_2 \in | \bigwedge^n(M) |^{1/2}$.  Then the pull-back of $\psi_i$ by $\varphi$ is given by right composition.  That is to say
+  Let $\phi \in C^{\infty}(M)$ and consider the action on $L_2(M)$ given by
   \begin{align*}
-    \varphi^* \psi_i( v_1,\dots,v_n ) = \psi_i( T_x\varphi \cdot v_1,\dots,T_x\varphi \cdot v_n ).
+    \psi \mapsto e^{i \phi} \cdot \psi.
   \end{align*}
-  It is then simple to observe that $(\varphi^* \psi_1 ) (\varphi^* \bar{\psi}_2)$ is a density which is equivalent to $\varphi^*( \psi_1 \bar{\psi}_2)$.
+  It is simple to check that $\langle e^{i \phi} \psi_1 \mid e^{i \phi} \psi_2 \rangle = \langle \psi_1 \mid \psi_2 \rangle$.  Thus $C^\infty(M)$ acts unitarily.
+
+  Let $\varphi \in \Diff(M)$ and $\psi_1,\psi_2 \in | \bigwedge^n(M) |^{1/2}$.  Then the push-forward of $\psi_i$ by $\varphi$ is given by right composition with $\varphi^{-1}$.  That is to say
+  \begin{align*}
+    \varphi_* \psi_i( v_1,\dots,v_n ) = \psi_i( T_x\varphi^{-1} \cdot v_1,\dots,T_x\varphi^{-1} \cdot v_n ).
+  \end{align*}
+  It is then simple to observe that $(\varphi_* \psi_1 ) (\varphi_* \bar{\psi}_2)$ is a density which is equivalent to $\varphi_*( \psi_1 \bar{\psi}_2)$.
   Thus we find
   \begin{align*}
-    \langle \varphi^* \psi_1 \mid \varphi^* \psi_2 \rangle = \int_M \varphi^*( \psi_1 \bar{\psi}_2) = \int_{\varphi(M)} \psi_1 \bar{\psi}_2 = \langle \psi_1 \mid \bar{\psi}_2 \rangle.
+    \langle \varphi_* \psi_1 \mid \varphi_* \psi_2 \rangle = \int_M \varphi_*( \psi_1 \bar{\psi}_2) = \int_{\varphi^{-1}(M)} \psi_1 \bar{\psi}_2 = \langle \psi_1 \mid \psi_2 \rangle.
   \end{align*}
 \end{proof}
 
+\hoj{We don't need this, but I really want it to be true}
+\begin{prop}
+  The left-action of $C^\infty(M) \times \Diff(M)$ given by
+  \begin{align*}
+    (\phi , \varphi) \cdot \psi = e^{i \phi} \cdot \varphi_* \psi
+  \end{align*}
+  makes $C^{\infty}(M) \times \Diff(M)$ a dense subgroup of $\U( L_2(M) )$.
+\end{prop}
+\begin{proof}
+  Let $\psi \in | \bigwedge^n(M) |^{1/2}$ be a smooth half-density.
+  Without loss of generality, we will assume that $\psi$ is real-valued.
+  \hoj{proof pending}
+\end{proof}
+
 \begin{cor}
-  The space of smooth vector-fields, $\mathfrak{X}(M)$, are anti-Hermetian operators on half-densities.
+  The space of smooth vector-fields, $\mathfrak{X}(M)$, are anti-Hermetian operators on $L_2(M)$.
 \end{cor}
 \begin{proof}
-  The space of smooth vector-fields form the Lie algebra of $\Diff(M)$.  As $\Diff(M) \subset \U( | \bigwedge^n(M)|^{1/2} )$, it must be the case that $\mathfrak{X}(M) \subset \mathfrak{u}( | \bigwedge^n( M) |^{1/2})$.
+  As the diffeomorphisms are unitary operators, it must be the case that the infinitesimal generators, i.e. vector fields, are anti-Hermetian operators.
 \end{proof}
 
 Given a vector field $X \in \mathfrak{X}(M)$, the anti-Hermetian action on $\psi \in |\bigwedge^n(M)|^{1/2}$ is given in coordinates by
@@ -171,6 +197,59 @@ Given a vector field $X \in \mathfrak{X}(M)$, the anti-Hermetian action on $\psi
   X[\psi](x) \stackrel{locally}{=} \left( X^i(x) \partial_i f(x) + \frac{1}{2} f(x) \partial_iX^i(x) \right) \sqrt{d {\bf x} }
 \end{align*}
 where $\psi$ is locally $f \sqrt{d {\bf x}}$.
+
+ The space of Hermetian operators on $L_2(M)$ is particularly important for understanding how to view real valued functions as operators.
+   We denote the set of Hermetian operators on $| \bigwedge^n(M) |^{1/2}$ by $\Herm(M)$.
+ A real-valued function $H \in C^0(M)$ induces a Hermetian operator
+on $| \bigwedge^n(M)|^{1/2}$, denoted $\widehat{H}$, by
+\begin{align*}
+  (\widehat{H} \cdot \psi)(v) = H(x) \psi(v) \quad , \quad \forall v \in \Fr_x M.
+\end{align*}
+In fact, any Hermetian operator is of the form $U \hat{H} U^*$ for some function $H$ and some unitray operator $U$.\cite[Chapter VII]{ReedSimon1980}.
+Diffeomorphisms transform functions in a consistent way, and so we can hope to densely capture the unitary orbits of a function.
+
+\begin{prop}
+  Let $\varphi \in \Diff(M)$ and let $U \in \U(L_2(M))$ be the induced unitary operator.  Let $H \in C^{\infty}(M)$.  Then $\widehat{ \varphi_*H} = U \hat{H} U^*$.
+\end{prop}
+\begin{proof}
+  By definition
+  \begin{align*}
+    (\widehat{\varphi_*H} \cdot \psi )(v) &= H(\varphi^{-1}(x)) \psi(v) \\
+    &= H(\varphi^{-1}(x)) \varphi^*\psi( \varphi^{-1} \cdot v) \\
+    &= ( \hat{H} \cdot \varphi^* \psi)( \varphi^{-1} \cdot v) \\
+    &= \varphi_* ( \hat{H}( \varphi^* \psi)) (v) \\
+    &= (U\hat{H}U^* \cdot \psi) (v).
+  \end{align*}
+\end{proof}
+
+Finally, let $\mu$ be a density.  The right action of $\mu$ under a diffeomorphism $\varphi$ is given by a pull-back
+\begin{align*}
+  \varphi^* \mu (v) = \mu ( \Fr(\varphi) \cdot v).
+\end{align*}
+Given a vector-field $X \in \mathfrak{X}(M)$ we define the Lie-derivative
+of $\mu$ as
+\begin{align*}
+  \pounds_X[ \mu] = \left. \frac{d}{dt} \right|_{t=0} \varphi_t^* \mu
+\end{align*}
+where $\varphi_t$ is the flow map of $X$.
+It is not uncommon that one is asked to solve a Louiville equation
+\begin{align*}
+  \partial_t \mu + \pounds_X[\mu] = 0.
+\end{align*}
+In local coordinates $\mu(x) = \rho(x) d {\bf x}$ for some density function $\rho$.  Louiville's equation takes the form
+\begin{align*}
+  \partial_t \rho + \partial_i ( X^i \rho) = 0.
+\end{align*}
+\begin{prop}
+  Let $X \in \mathfrak{X}(M)$ and let $\psi \in L_2(M)$ satisfiy the advection equation
+  \begin{align*}
+    \partial_t \psi + \pounds_X[\psi] = 0.
+  \end{align*}
+  Then the measure $\mu = \psi \cdot \bar{\psi}$ satisfies the Louiville equation.  Conversely, if $\mu$ satisfies the Louiville equation then there exists a half-density $\psi$ which satisfies the above advection equation and $\psi \cdot \bar{\psi} = \mu$.
+\end{prop}
+\begin{proof}
+  \hoj{proof pending}
+\end{proof}
 
 
 \section{A semidiscretization}
