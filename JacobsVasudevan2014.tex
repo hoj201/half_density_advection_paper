@@ -1,5 +1,7 @@
 \documentclass[12pt]{amsart}
+\usepackage{amssymb}
 \usepackage{todonotes}
+\usepackage{tensor}
 
 \newcommand{\hoj}[1]{\todo[inline, color=red!20]{HOJ: #1}}
 \newcommand{\ram}[1]{\todo[inline, color=blue!20]{RAM: #1}}
@@ -12,6 +14,7 @@
 \DeclareMathOperator{\Diff}{Diff}
 \DeclareMathOperator{\GL}{GL}
 \DeclareMathOperator{\U}{U}
+\DeclareMathOperator{\SU}{SU}
 \DeclareMathOperator{\Fr}{Fr}
 \DeclareMathOperator{\Herm}{Herm}
 
@@ -61,6 +64,9 @@ This baseline behavior is a pre-requisite for having confidence in a climate mod
 \subsection{Advection of signed measures}
 \label{sec:signed}
 When there are two ways of doing something, who's to say which is better.
+
+\subsection{An example involving the ring structure of functions}
+
 
 \subsection{An example}
 \todo[inline]{Here we advect a measure $\mu$ via Transfer-operator theory (w/o describing the theory in detail).
@@ -173,11 +179,11 @@ It is notable that the inner product on half-densities has been defined intrinis
 
 \hoj{We don't need this, but I really want it to be true}
 \begin{prop}
-  The left-action of $C^\infty(M) \times \Diff(M)$ given by
+  The left-action of semi-direct product $C^\infty(M) \rtimes \Diff(M)$ given by
   \begin{align*}
     (\phi , \varphi) \cdot \psi = e^{i \phi} \cdot \varphi_* \psi
   \end{align*}
-  makes $C^{\infty}(M) \times \Diff(M)$ a dense subgroup of $\U( L_2(M) )$.
+  makes $C^{\infty}(M) \rtimes \Diff(M)$ a dense subgroup of $\U( L_2(M) )$.
 \end{prop}
 \begin{proof}
   Let $\psi \in | \bigwedge^n(M) |^{1/2}$ be a smooth half-density.
@@ -251,11 +257,92 @@ In local coordinates $\mu(x) = \rho(x) d {\bf x}$ for some density function $\rh
   \hoj{proof pending}
 \end{proof}
 
+\section{Open, hybrid, and random systems}
+\hoj{In order for us to deal with charts
+we need to be able to deal with boundaries.
+This is certainly doable, and in fact it is a good
+thing.  If we can handle flux across boundaries
+we can probably resolve dynamics for out-flowing
+submanifolds of non-compact manifolds.
+Additionally, the way to do hybrid systems
+will be clear (transition maps between
+charts will be a special case of transition
+maps in hybrid systems).
+Lastly, by considering systems with flux
+across the boundaries we will no longer be
+using anti-Hermetian operators.
+No problem.  We can at least muse on random
+systems (particular Brownian motion in Rn).
+That we can do all these special cases puts
+us further ahead of the Koopman/FP people.
+}
+
+  In the previous section we restricted ourselves to the
+case where $M$ was a compact manifold, and we always considered
+vector-fields which were tangent to the boundary of $M$.
+However, this may be too restrictive for most applications, and
+we'd like to expand these constructions to handle non-compact
+manifolds.
+In particular we will resolve the dynamics on out-flowing
+submanifolds of a (perhaps noncompact) manifold $M$.
+
+\begin{defn}
+  Let $M$ be a manifold and $U \subset M$ be a bounded open subset.
+  Let $X \in \mathfrak{X}(M)$.
+  We call $U$ outflowing if there exists a function $f$ on a neighborhood
+  of the boundary of $U$ such that $X[f] = 1$.
+\end{defn}
+
+Hueristically, a manifold is \emph{outflowing} if points near the boundary
+of the manifold are driven out-of or further away from the manifold by
+the dynamics.
 
 \section{A semidiscretization}
 \label{sec:semi_discretization}
 
-\hoj{I write this, so we can do it using charts}
+We will first present the most simple spectral method
+which seems natural given the constructions presented thus far.
+Let $M$ be a compact manifold and let
+$\psi_1,\psi_2,\dots$ be a Hilbert basis of half-densities
+on $M$ with Neumann boundary conditions
+and let $\tilde{\psi}_1,\tilde{\psi}_2,\dots$ denote the dual basis
+with respect to the inner-product on half-densities.
+This choice defines a series of isomorphisms which we will
+denote with the same letter.
+Firstly, there is the isomorphism which extracts the coefficients of 
+a half-density with respect to this basis
+\begin{align*}
+  [\cdot ] : \psi \in L_2(M) \mapsto [\psi] \in \ell^2( \mathbb{C})
+\end{align*}
+where the $i$th member of $[\psi]$ is $\langle \tilde{\psi}_i , \psi \rangle$.
+
+Similarly, for a linear operator on $L_2(M)$ we define $[\cdot ]: L( L_2(M)) \to L( \ell^2( \mathbb{C}) )$ in a consitent way (i.e. by push-forward).  That is, for a linear operator $A \in L( L_2 (M))$ we define $[A] [\psi] = [A \cdot \psi]$. 
+
+Given a vector-field $X \in \mathfrak{X}(M)$ which is tangent to the
+boundary, we observe
+\begin{align*}
+  [X]\indices{^i_j} = \langle \tilde{\psi}_i , \pounds_X[ \psi_j ] \rangle.
+\end{align*}
+We can formally view the flow of $X$ by considering the formal
+matrix exponential
+\begin{align*}
+  [U_t] = \exp( t[X] ) = \sum_{k=0}^{\infty} \frac{t^k}{k!} [X]^k.
+\end{align*}
+which converges since $[X]$ is anti-Hermetian.
+The evolution of a half-density carried by the flow can be determined by the evolution of coefficients.
+That is to say we may compute $[\psi_0]$, apply $[U_t]$ to get $[U_t] \cdot [\psi_0]$.
+Then we may invert $[\cdot]$ to obtain $\psi_t$.
+Densities are obtained by squaring the coefficients of $\psi$.
+So if $\rho = |\psi|^2$ we may view its discretization as the sum of non-negative functions with non-negative coefficients $\rho = |c_i|^2 |\psi_i|^2$.
+This allows us to advect $\rho$ in a similar manner.
+Namely, $[\rho_0]_i$ is advected to $[\rho_t]_i = | [U_t]\indices{^i_j} \cdot [\sqrt{\rho}_0]_j |^2$.
+Finally, functions may be advected by sending $[\hat{f}]$ to $[U_t] [\hat{f}] [U_t]^*$.
+
+A semidiscretization is provided by truncating these expansions.
+so that we only consider an $n \times n$ anti-Hermetian matrix, $[X]_n$
+and we can then model the flow using the $\SU(n)$ matrix $\exp( t [X]_n)$.
+
+
 
 \section{Error analysis}
 \label{sec:error}
