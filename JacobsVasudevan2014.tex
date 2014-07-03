@@ -287,15 +287,41 @@ In particular we will resolve the dynamics on out-flowing
 submanifolds of a (perhaps noncompact) manifold $M$.
 
 \begin{defn}
-  Let $M$ be a manifold and $U \subset M$ be a bounded open subset.
+  Let $M$ be a manifold and $U \subset M$ be an open subset.
   Let $X \in \mathfrak{X}(M)$.
-  We call $U$ outflowing if there exists a function $f$ on a neighborhood
-  of the boundary of $U$ such that $X[f] = 1$.
+  We call $U$ \emph{outflowing} if there exists a $t > 0$
+  such that $U \subset \exp(t X) \cdot U$
 \end{defn}
 
-Hueristically, a manifold is \emph{outflowing} if points near the boundary
-of the manifold are driven out-of or further away from the manifold by
-the dynamics.
+\begin{prop}
+  Let $M$ be a manifold, $X \in \mathfrak{X}(M)$, and let $U \subset M$ be an open set.  The evolution equation on $L_2(\bar{U})$ given by
+  \begin{align}
+    \partial_t \psi + \pounds_{X|_{\bar{U}}}[\psi] = 0 \label{eq:restricted}
+  \end{align}
+  is well-posed if $U$ is outflowing.
+  If $U$ is not outflowing then \eqref{eq:restricted} is underdetermined.
+\end{prop}
+\begin{proof}
+  Let $e^{tX}:M \to M$ be the flow\footnote{Our notation assumes that the flow extends to all of $M$. However, the proof holds without this assumption.} of $X$.
+  If \eqref{eq:restricted} is well posed, then the solution is given by the following sequence of steps
+  \begin{enumerate}
+    \item Extend the initial condition $\psi_0 \in L_2( \bar{U})$ to another half-density $\Psi_0 \in L_2(M)$.
+    \item Solve the evolution equation on $M$ given by $\partial_t \Psi + \pounds_X[\Psi] = 0$.
+    \item Then $\psi_t = \Psi_t |_{\bar{U}}$ solves \eqref{eq:restricted}.
+  \end{enumerate}
+  The solution to the system given in step (2) is $\Psi_t = \Psi_0 \circ \Fr( \exp( -tX) )$.
+  If $U$ is outflowing, then $U \subset \exp(tX) \cdot U$.
+  More pertinant is that $\exp(tX) \cdot U \subset U$.
+  We observe directly that
+  \begin{align*}
+    \psi_t = \left. \Psi_0 \circ \Fr( \exp( -tX) ) \right|_{\bar{U}}
+    \equiv \psi_0 \circ \Fr( \exp(-tX) ) \right|_{\bar{U}}
+  \end{align*}
+  is independ of the extension $\Psi_0$.
+  The above algorithm yields a unique solution in this case.
+  Otherwise, if $\psi$ is not outflowing, the algorithm yields a
+  family of solutions parametrized by extensions of of $\psi_0$.
+\end{proof}
 
 \section{A semidiscretization}
 \label{sec:semi_discretization}
