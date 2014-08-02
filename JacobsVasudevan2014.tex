@@ -17,6 +17,7 @@
 \DeclareMathOperator{\SU}{SU}
 \DeclareMathOperator{\Fr}{Fr}
 \DeclareMathOperator{\Herm}{Herm}
+\DeclareMathOperator{\supp}{supp}
 
 \title{A unified approach to advection}
 
@@ -101,7 +102,7 @@ If we denote the set of basis, or frames, of $V$ by $\Fr(V)$,
  \begin{align*}
   v = (v_1,\dots,v_n) \in \Fr(V) \stackrel{A \in \GL(n)}{\mapsto} v \cdot A = (A_1^j v_j, \dots, A_n^j v_j) \in \Fr(V).
  \end{align*}
-A density on $V$ is merely a map $\mu_V: \Fr(V) \to \mathbb{C}$ such that
+A density on $V$ is merely a map $\mu_V: \Fr(V) \to \mathbb{R}^+$ such that
 \begin{align*}
   \mu_V( v \cdot A) = \mu_V(v) | \det(A) |
 \end{align*}
@@ -109,7 +110,7 @@ for any $A \in \GL(n)$.
 We can bundle-ize these notions to define a density on a manifold by defining the frame bundle.
 \begin{defn}
   The \emph{frame bundle} of $M$, is the fiber bundle $\pi_{\Fr}:\Fr(M) \to M$ whose fiber over $x \in M$ is $\pi_{\Fr}^{-1}(x) = \Fr( T_x M)$.
-A \emph{density} on a manifold, is a map $\mu:\Fr(M) \to \mathbb{C}$ such that $\mu(x): \Fr(T_xM) \to \mathbb{C}$ is a density on the vector-space $T_xM$.
+A \emph{density} on a manifold, is a map $\mu:\Fr(M) \to \mathbb{C}$ such that $\mu(x): \Fr(T_xM) \to \mathbb{R}^+$ is a density on the vector-space $T_xM$.
 \end{defn}
  The integral of a density on $M$ is given by the standard partition of unity argument, usually applied to $n$-forms \cite[Chapter 14]{Lee2006}.\footnote{Integration of $n$-forms usually requires a orientation, however densities may be integrated on any manifold.}
 This (non-standard) characterization of a density allows us to introduce half-densities without further delay.
@@ -123,7 +124,7 @@ This (non-standard) characterization of a density allows us to introduce half-de
   for any $A \in \GL(n)$.
   We denote the space of half-densities by $|\bigwedge^n(M)|^{1/2}$.
 \end{defn}
-
+\hoj{should say something about boundary conditions in this definition}
 On a chart $U \subset M$ with coordinates $x^1,\dots,x^n$ we always have a local volume form $d{\bf x} = dx^1\wedge dx^2 \wedge \cdots \wedge dx^n$.
 If we think of this volume form as a function on $\Fr(U)$, then we may take the square-root of this function to get a locally defined half-density $\sqrt{d{\bf x}}$.
 Any half-density $\psi \in | \bigwedge^n(M)|^{1/2}$ is locally expressed as
@@ -175,20 +176,6 @@ It is notable that the inner product on half-densities has been defined intrinis
   \begin{align*}
     \langle \varphi_* \psi_1 \mid \varphi_* \psi_2 \rangle = \int_M \varphi_*( \psi_1 \bar{\psi}_2) = \int_{\varphi^{-1}(M)} \psi_1 \bar{\psi}_2 = \langle \psi_1 \mid \psi_2 \rangle.
   \end{align*}
-\end{proof}
-
-\hoj{We don't need this, but I really want it to be true}
-\begin{prop}
-  The left-action of semi-direct product $C^\infty(M) \rtimes \Diff(M)$ given by
-  \begin{align*}
-    (\phi , \varphi) \cdot \psi = e^{i \phi} \cdot \varphi_* \psi
-  \end{align*}
-  makes $C^{\infty}(M) \rtimes \Diff(M)$ a dense subgroup of $\U( L_2(M) )$.
-\end{prop}
-\begin{proof}
-  Let $\psi \in | \bigwedge^n(M) |^{1/2}$ be a smooth half-density.
-  Without loss of generality, we will assume that $\psi$ is real-valued.
-  \hoj{proof pending}
 \end{proof}
 
 \begin{cor}
@@ -257,7 +244,8 @@ In local coordinates $\mu(x) = \rho(x) d {\bf x}$ for some density function $\rh
   \hoj{proof pending}
 \end{proof}
 
-\section{Open, hybrid, and random systems}
+
+\section{Flux through boundaries}
 \hoj{In order for us to deal with charts
 we need to be able to deal with boundaries.
 This is certainly doable, and in fact it is a good
@@ -277,6 +265,12 @@ That we can do all these special cases puts
 us further ahead of the Koopman/FP people.
 }
 
+Let $U,V \subset M$ be open sets such that $M \ U = \bar{V}$.
+and let $i_U,i_V: U,V \hookrightarrow M$ be the embeddings.
+We can consider the set $i^*_U L^2(M)$.
+
+
+\subsection{Noncompact manifolds}
   In the previous section we restricted ourselves to the
 case where $M$ was a compact manifold, and we always considered
 vector-fields which were tangent to the boundary of $M$.
@@ -290,22 +284,24 @@ submanifolds of a (perhaps noncompact) manifold $M$.
   Let $M$ be a manifold and $U \subset M$ be an open subset.
   Let $X \in \mathfrak{X}(M)$.
   We call $U$ \emph{outflowing} if there exists a $t > 0$
-  such that $U \subset \exp(t X) \cdot U$
+  such that $U \subset \exp(t X) \cdot U$.
+  If there exists a $t>0$ such $\exp(t X) \cdot U \subset U$.
 \end{defn}
 
 \begin{prop}
-  Let $M$ be a manifold, $X \in \mathfrak{X}(M)$, and let $U \subset M$ be an open set.  The evolution equation on $L_2(\bar{U})$ given by
+  Let $M$ be a manifold, $X \in \mathfrak{X}(M)$, and let $U \subset M$ be an open set.  The evolution equation on $L^2(\bar{U})$ given by
   \begin{align}
     \partial_t \psi + \pounds_{X|_{\bar{U}}}[\psi] = 0 \label{eq:restricted}
   \end{align}
   is well-posed if $U$ is outflowing.
   If $U$ is not outflowing then \eqref{eq:restricted} is underdetermined.
+  If $U$ is inflowing the equation is well posed upon restriction of $\psi$ to densities with vanishing derivatives on the boundary of $U$.
 \end{prop}
 \begin{proof}
-  Let $e^{tX}:M \to M$ be the flow\footnote{Our notation assumes that the flow extends to all of $M$. However, the proof holds without this assumption.} of $X$.
+  Let $e^{tX}:M \to M$ be the flow\footnote{This notation suggests that the flow extends to all of $M$. However, the proof holds without this assumption.} of $X$.
   If \eqref{eq:restricted} is well posed, then the solution is given by the following sequence of steps
   \begin{enumerate}
-    \item Extend the initial condition $\psi_0 \in L_2( \bar{U})$ to another half-density $\Psi_0 \in L_2(M)$.
+    \item Extend the initial condition $\psi_0 \in L^2( \bar{U})$ to another half-density $\Psi_0 \in L^2(M)$.
     \item Solve the evolution equation on $M$ given by $\partial_t \Psi + \pounds_X[\Psi] = 0$.
     \item Then $\psi_t = \Psi_t |_{\bar{U}}$ solves \eqref{eq:restricted}.
   \end{enumerate}
@@ -315,13 +311,42 @@ submanifolds of a (perhaps noncompact) manifold $M$.
   We observe directly that
   \begin{align*}
     \psi_t = \left. \Psi_0 \circ \Fr( \exp( -tX) ) \right|_{\bar{U}}
-    \equiv \psi_0 \circ \Fr( \exp(-tX) ) \right|_{\bar{U}}
+    \equiv \psi_0 \circ \Fr( \exp(-tX) ) |_{\bar{U}}
   \end{align*}
   is independ of the extension $\Psi_0$.
   The above algorithm yields a unique solution in this case.
   Otherwise, if $\psi$ is not outflowing, the algorithm yields a
   family of solutions parametrized by extensions of of $\psi_0$.
+  If we consider half-densities which vanish on the boundary of $U$ and extensions which vanish outside of $U$ then this algorithm yields a unique solution for inflowing manifolds as well.
 \end{proof}
+
+The case of a submanifold which is niether inflowing nor outflowing is slightly more complicated.  What is needed is a gurantee that points which leave will never return.  This is addressed in the following definition and proposition.
+
+\begin{defn}[\S 13 \cite{Lee2006}]
+  Let $N \subset M$ be a non-meager submanifold with boundary $\partial N$.
+  We call $v \in T_{\partial N}M$ \emph{inward pointing} if $v$ is transversed to $TN$ and there exists a curve $\gamma: [0,1] \to M$ such that $\gamma'(0) = v$ and $\gamma(t) \in N$ for all $t \in [0,1]$.
+We call $v$ \emph{outward pointing} if $-v$ is inward pointing.
+\end{defn}
+
+\begin{prop}
+  Let $N \subset M$ be a non-meager submanifold with boundary $\partial N$.
+  Let $X \in \mathfrak{X}(M)$ be a vector field.
+  Define the subsets
+  \begin{align*}
+    N_{in} &= \{ x \in \partial N \mid X(x) \text{ is inward pointing} \} \\
+    N_{out}&= \{ x \in \partial N \mid X(x) \text{ is outward pointing} \} \\
+    {\rm traj}^-(N_{\rm in}) &= \{ \phi_{t}(x) \mid x \in N_{\rm in}, t < 0 \} \\
+    {\rm traj}^+(N_{\rm out}) &= \{ \phi_{t}(x) \mid x \in N_{\rm out}, t > 0 \},
+  \end{align*}
+  where $\phi_t$ is the flow of $X$.
+  If ${\rm traj}^-(N_{\rm in})$ and ${\rm traj}^+(N_{\rm out})$ are disjoint , then any half-density $\Psi_0$ on $N$ which vanishes on $N_{\rm in}$ has a unique solution to the half-density advection equation induced by $X|_{N}$.
+\end{prop}
+\begin{proof}
+  The solution to the half-density advection equation (if one exists) is given by $\Psi_0 \circ \Fr( \Phi_t)$.  We can extend $\Psi_0$ to a half-density on $N \cup {\rm traj}^-(N_{\rm in})$ which is $0$ on all of $N_{\rm in}$.
+  Because ${\rm traj}^-(N_{\rm in})$ and ${\rm traj}^+(N_{\rm out})$ are disjoint, we are guranteed that points which leave $N$ will never return.
+  Thus restricting $\Psi_0 \circ \Fr( \Phi_t)$ to $N$ yields the solution of the half-density advection equation on $N$.
+\end{proof}
+
 
 \section{A semidiscretization}
 \label{sec:semi_discretization}
@@ -338,11 +363,11 @@ denote with the same letter.
 Firstly, there is the isomorphism which extracts the coefficients of 
 a half-density with respect to this basis
 \begin{align*}
-  [\cdot ] : \psi \in L_2(M) \mapsto [\psi] \in \ell^2( \mathbb{C})
+  [\cdot ] : \psi \in L^2(M) \mapsto [\psi] \in \ell^2( \mathbb{C})
 \end{align*}
 where the $i$th member of $[\psi]$ is $\langle \tilde{\psi}_i , \psi \rangle$.
 
-Similarly, for a linear operator on $L_2(M)$ we define $[\cdot ]: L( L_2(M)) \to L( \ell^2( \mathbb{C}) )$ in a consitent way (i.e. by push-forward).  That is, for a linear operator $A \in L( L_2 (M))$ we define $[A] [\psi] = [A \cdot \psi]$. 
+Similarly, for a linear operator on $L^2(M)$ we define $[\cdot ]: L( L^2(M)) \to L( \ell^2( \mathbb{C}) )$ in a consitent way (i.e. by push-forward).  That is, for a linear operator $A \in L( L^2 (M))$ we define $[A] [\psi] = [A \cdot \psi]$. 
 
 Given a vector-field $X \in \mathfrak{X}(M)$ which is tangent to the
 boundary, we observe
