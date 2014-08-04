@@ -11,6 +11,8 @@
 \newtheorem{cor}{Corollary}
 \newtheorem{defn}{Definition}
 
+\newenvironment{example}{Example}
+
 \DeclareMathOperator{\Diff}{Diff}
 \DeclareMathOperator{\GL}{GL}
 \DeclareMathOperator{\U}{U}
@@ -26,6 +28,11 @@
 
 \section{Introduction}
 \label{sec:intro}
+
+\hoj{Rather than bad-mouthing Koopman/Perron-Frobenius operators,
+consider speaking positively about the need for spectral theories
+and indicate a gap in the literature which this paper fills.
+The ``benefits'' can be mentioned briefly here and elaborated later.}
 
   Any geometric object (a function, a density, a tensor, etc) transforms in its own unique way when carried by a diffeomorphism.
 As a results, there are a variety of advection schemes for different types of
@@ -81,6 +88,16 @@ Moreover, we could not that $\int \mu$ is not conserved, nor is $\sup(f)$.}
 Peron-Frobenius, Koopmanism, Transfer operators,
 Henrion-Korda,etc.}
 
+\section{Notation}
+  If $U \subset M$, we denote the inclusion map by $i_U:U \to M$.
+  We denote the set of $k$-differentiable functions on $M$ by $C^k(M)$.
+  Given a $C^k$-map $\phi: M \to N$, we define
+  \begin{align*}
+    \phi^*C^k(N) := \{ f \circ \phi \mid f \in C^k(N) \} \subset C^k(M).
+  \end{align*}
+  Note the $\phi^*C^k(N)$ is an ideal of $C^k(M)$.
+
+
 \section{The geometry of half-densities}
 \label{sec:half_densities}
 
@@ -88,15 +105,16 @@ In differential geometry, the domain of concern is
 a differentiable manifold, $M$, and objects (such as
 functions, vector-fields, and densities) are typically defined
 as maps from points in $M$.
-However, the inner-product space
-of half-densities on $M$ allows us to redefine these concepts
-as operations on an inner-product space.
+However, the pre-Hilbert space
+of half-densities on $M$ allows us to characterize the previous
+mentioned concepts as (infinite dimensional) linear operators.
 
 Before introduing the definition of a half-density, it is useful
 to characterize densities in a geometric way.
-A density on a vector-space, $V$, is merely a way of measuring the volume
-of parallelopipeds.
-Mathematically, this means assiging a number to each basis in a way which transforms appropriately under linear changes of coordinates.
+A density on a finite dimensional vector space, $V$,
+is merely a device for measuring the volume of parallelopipeds in $V$.
+Mathematically, this means assiging a number to each basis of $V$
+in a way which transforms appropriately under linear transformations.
 If we denote the set of basis, or frames, of $V$ by $\Fr(V)$,
  then there is a natural $\GL(n)$ action on $\Fr(V)$ given by
  \begin{align*}
@@ -241,44 +259,35 @@ In local coordinates $\mu(x) = \rho(x) d {\bf x}$ for some density function $\rh
   Then the measure $\mu = \psi \cdot \bar{\psi}$ satisfies the Louiville equation.  Conversely, if $\mu$ satisfies the Louiville equation then there exists a half-density $\psi$ which satisfies the above advection equation and $\psi \cdot \bar{\psi} = \mu$.
 \end{prop}
 \begin{proof}
-  \hoj{proof pending}
+  Let $\psi$ satisfy the half-density advection equation.
+  The solution is given by $\psi_t = (\Phi_X^t)_*\psi_0$
+  where $(\Phi_X^{t})^{-1}$ is the inverse of the flow of $X$.
+  If we define the measure $\mu_t = |\psi_t |^2$
+  we see that
+  \begin{align*}
+    \mu_t &= | (\Phi_X^t)_* \psi_0 |^2 = | \psi_0 |^2 \circ \Fr([\Phi_X^t]^{-1}) \\
+    &= \mu_0 \circ \Fr( [\Phi_X^t]^{-1}) = (\Phi_X^{t})_* \mu_0.
+  \end{align*}
+  Therefore $\mu_t$ satisfies Louiville's equation.
+  Conversely, if $\mu_t$ satisfies Louiville's equation,
+  then $\mu_t = \mu_0 \circ \Fr([\Phi_X^t]^{-1})$.
+  If we set $\psi_0$ to be any square root of $\mu_0$,
+  and set $\psi_t := \psi_0 \circ \Fr([\Phi_X^t]^{-1})$, we find
+  that $\psi_t$ satisfies the half-density advection equation
+  and by the argument just given, $\mu_t = |\psi_t|^2$.
 \end{proof}
 
-
-\section{Flux through boundaries}
-\hoj{In order for us to deal with charts
-we need to be able to deal with boundaries.
-This is certainly doable, and in fact it is a good
-thing.  If we can handle flux across boundaries
-we can probably resolve dynamics for out-flowing
-submanifolds of non-compact manifolds.
-Additionally, the way to do hybrid systems
-will be clear (transition maps between
-charts will be a special case of transition
-maps in hybrid systems).
-Lastly, by considering systems with flux
-across the boundaries we will no longer be
-using anti-Hermetian operators.
-No problem.  We can at least muse on random
-systems (particular Brownian motion in Rn).
-That we can do all these special cases puts
-us further ahead of the Koopman/FP people.
-}
-
-Let $U,V \subset M$ be open sets such that $M \ U = \bar{V}$.
-and let $i_U,i_V: U,V \hookrightarrow M$ be the embeddings.
-We can consider the set $i^*_U L^2(M)$.
-
-
-\subsection{Noncompact manifolds}
-  In the previous section we restricted ourselves to the
-case where $M$ was a compact manifold, and we always considered
-vector-fields which were tangent to the boundary of $M$.
-However, this may be too restrictive for most applications, and
-we'd like to expand these constructions to handle non-compact
-manifolds.
-In particular we will resolve the dynamics on out-flowing
-submanifolds of a (perhaps noncompact) manifold $M$.
+\subsection{Submanifolds}
+The algorithms we'd like to pursue are most easily defined on
+compact manifolds, perhaps with boundaries and tangential boundary
+conditions on the dyanmics.
+However, this may be too restrictive for many applications, and
+we'd like to expand these constructions to handle at least
+some instances of dynamics on non-compact
+manifolds and more general boundary conditions.
+In particular we will resolve the dynamics on compact
+submanifolds of a (possibly noncompact) manifold under certain
+admissibility assumptions.
 
 \begin{defn}
   Let $M$ be a manifold and $U \subset M$ be an open subset.
@@ -320,7 +329,9 @@ submanifolds of a (perhaps noncompact) manifold $M$.
   If we consider half-densities which vanish on the boundary of $U$ and extensions which vanish outside of $U$ then this algorithm yields a unique solution for inflowing manifolds as well.
 \end{proof}
 
-The case of a submanifold which is niether inflowing nor outflowing is slightly more complicated.  What is needed is a gurantee that points which leave will never return.  This is addressed in the following definition and proposition.
+The case of a submanifold which is niether inflowing nor outflowing is slightly more complicated.
+What is needed is a guarantee that points which leave will never return.
+This is addressed in the following definition and proposition.
 
 \begin{defn}[\S 13 \cite{Lee2006}]
   Let $N \subset M$ be a non-meager submanifold with boundary $\partial N$.
@@ -393,7 +404,33 @@ A semidiscretization is provided by truncating these expansions.
 so that we only consider an $n \times n$ anti-Hermetian matrix, $[X]_n$
 and we can then model the flow using the $\SU(n)$ matrix $\exp( t [X]_n)$.
 
+We would like to apply wavelet theory for the purpose of the error bounds,
+and sparsity structure they bring to the problem.
+However, the notion of wavelets on manifolds is still in development,
+and virtually all of the available packages are for wavelets on Euclidean spaces.
+This motivate the following definition.
+\begin{defn}
+  Let $M$ be a compact connected manifold (with or without boundary), and let $\phi:U \subset M \to V \subset \mathbb{R}^n$ be a chart such that $U$ is dense in $M$.
+  Let $W_s \subset C^k(V)$ be a nested sequence of function spaces
+  with respect to the paramenter $s \in \mathbb{Z}$.
+  Let $W = \cup_s W_s$.
+  We call the pair $(\phi, W_s)$ a \emph{computational domain for $M$ with respect to $W_s$}
+  if $\phi^*W_s \subset i_{U}^* C^k(M)$ and $i_U^*C^k(M) \subset \phi^*W$.
+\end{defn}
 
+The constraint ``$\phi^*W_s \subset i_U^* C^k(M)$'' enforces that each of the spaces $W_s$ models the function space $i_U^* C^k(M)$ and nothing more.
+The second constraint ensures that elements of $i_U^* C^k(M)$ can be approximated by $W_s$ for some $s \in \mathbb{Z}$.
+
+An illustrative example is the following.
+\begin{example}
+Let $W_N$ denote the space of sinuisoids $\sin( k x),\cos( kx)$ for $k < N$ restricted to the interval $(-\pi,\pi)$.
+Let $S^1$ be represented by the subset of the complex plane $\{ e^{ix} \mid x \in \mathbb{R} \}$.
+Let $U = \{ e^{ix} \mid x \in (-\pi,\pi) \}$.
+Finally, let $\phi: U \to (-\pi,\pi)$ be the chart $\phi( e^{ix}) = x$.
+We see that $i_U^*C^k(S^1)$ is isomorphic to the subspace of $C^k$-functions on $(-\pi,\pi)$
+which can be extended to $C^k$ functions on $[-\pi,\pi]$ with periodic boundary conditions.
+From here it is easy to observe that $\phi$ is a computational domain with respect to $W_N$ for any integer $N$.
+\end{example}
 
 \section{Error analysis}
 \label{sec:error}
